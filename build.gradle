@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id "com.palantir.docker" version "0.34.0"
+    id "com.palantir.docker-run" version "0.34.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+docker{
+    name "${project.name}"
+    dockerfile file("src/main/java/docker/Dockerfile")
+    copySpec.from(jar).rename(".*","app.jar")
+    buildArgs(['JAR_FILE': "app.jar"])
+}
+dockerRun{
+    name "$project.name"
+    image "${project.name}"
+}
+dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'Program'
+    }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+test {
+    useJUnitPlatform()
+}
