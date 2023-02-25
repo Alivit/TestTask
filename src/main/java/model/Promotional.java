@@ -8,6 +8,10 @@ public class Promotional extends Product {
         this.newPrice = newPrice;
     }
 
+    public Promotional(){
+        super();
+    }
+
     public double getNewPrice() {
         return newPrice;
     }
