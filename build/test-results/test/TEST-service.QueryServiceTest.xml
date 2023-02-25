@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="service.QueryServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-02-25T19:57:41" hostname="LAPTOP-K0G8TMI0" time="1.517">
+<testsuite name="service.QueryServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-02-25T20:09:35" hostname="LAPTOP-K0G8TMI0" time="0.671">
   <properties/>
-  <testcase name="[1] select * from product" classname="service.QueryServiceTest" time="1.517"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="[1] " classname="service.QueryServiceTest" time="0.671"/>
+  <system-out><![CDATA[org.postgresql.util.PSQLException: Запрос не вернул результатов.
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
