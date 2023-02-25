@@ -19,7 +19,7 @@ public class ProductTest implements TestBuilder<Product> {
         server.setId(id);
         server.setName(name);
         server.setAmount(amount);
-        server,setPrice(price);
+        server.setPrice(price);
         server.setStatus(status);
         return server;
     }
