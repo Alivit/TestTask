@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TestTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-21T16:51:59" hostname="LAPTOP-K0G8TMI0" time="0.05">
-  <properties/>
-  <testcase name="testParse()" classname="TestTest" time="0.05"/>
-  <system-out><![CDATA[������ ��������!!!
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
