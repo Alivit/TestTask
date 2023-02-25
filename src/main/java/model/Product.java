@@ -7,6 +7,8 @@ public class Product {
     private double price;
     private String status;
 
+    public Product() {}
+
     public int getId() {
         return id;
     }
