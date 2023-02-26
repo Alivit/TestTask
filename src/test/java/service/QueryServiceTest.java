@@ -3,7 +3,7 @@ package service;
 import database.DBConnection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.sql.ResultSet;
@@ -26,7 +26,7 @@ class QueryServiceTest {
     }
 
     @ParameterizedTest
-    @EmptySource
+    @NullAndEmptySource
     void emptyQueryTest(String query) throws SQLException {
         ResultSet resultSet = QueryService.get(query);
         assertThat(resultSet).isNull();

@@ -25,6 +25,7 @@ dockerRun{
     image "${project.name}"
 }
 dependencies {
+    testImplementation 'org.mockito:mockito-core:2.24.0'
     implementation 'org.projectlombok:lombok:1.18.20'
     testImplementation 'org.assertj:assertj-core:3.6.1'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'

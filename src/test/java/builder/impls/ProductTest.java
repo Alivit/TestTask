@@ -7,7 +7,6 @@ import lombok.With;
 import model.Product;
 
 @AllArgsConstructor
-@NoArgsConstructor(staticName = "aProduct")
 @With
 public class ProductTest implements TestBuilder<Product> {
     private int id = 1;
@@ -15,6 +14,12 @@ public class ProductTest implements TestBuilder<Product> {
     private int amount = 1;
     private double price = 1;
     private String status = "default";
+
+    private ProductTest(){}
+
+    public static ProductTest aProduct(){
+        return new ProductTest();
+    }
 
     @Override
     public Product build() {
