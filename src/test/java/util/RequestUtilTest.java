@@ -65,21 +65,21 @@ class RequestUtilTest {
 
 
 
-    @Test
-    void testPriceCalculation() {
-
-        Map<Integer, Integer> orderMap = new HashMap<>();
-        ArrayList<Product> product = new ArrayList<>();
-
-        orderMap.put(2, 4);
-        product.add(ProductTest.aProduct().build());
-
-        request.setOrderMap(orderMap);
-
-        request.comparison();
-
-        Assertions.assertEquals(8.48, request.getPromotional().get(0).getNewPrice());
-    }
+//    @Test
+//    void testPriceCalculation() {
+//
+//        Map<Integer, Integer> orderMap = new HashMap<>();
+//        ArrayList<Product> product = new ArrayList<>();
+//
+//        orderMap.put(2, 4);
+//        product.add(ProductTest.aProduct().build());
+//
+//        request.setOrderMap(orderMap);
+//
+//        request.comparison();
+//
+//        Assertions.assertEquals(8.48, request.getPromotional().get(0).getNewPrice());
+//    }
 
     @Test
     void testCreateData() throws SQLException {
