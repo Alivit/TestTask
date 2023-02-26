@@ -44,7 +44,7 @@ class TestTest {
         ArrayList<Product.Builder> product = new ArrayList<>();
 
         orderMap.put(2, 4);
-        product.add(new Product.Builder(2, "Ñûğ", 2.12, "àêöèÿ"));
+        product.add(new Product.Builder(2, "Ğ¡Ñ‹Ñ€", 2.12, "Ğ°ĞºÑ†Ğ¸Ñ"));
 
         request.setOrderMap(orderMap);
         request.setProducts(product);

@@ -86,7 +86,6 @@ public class RequestUtil {
     }
 
     public void workWithBD(RequestUtil request) throws SQLException {
-
         products = new ArrayList<>();
         createData("PRODUCT", "select * from product", request);
 

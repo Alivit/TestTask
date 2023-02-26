@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="util.RequestUtilTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2023-02-26T15:56:16" hostname="LAPTOP-K0G8TMI0" time="0.861">
+  <properties/>
+  <testcase name="[1] [2-3, 4-5, 6-1, card-1234]" classname="util.RequestUtilTest" time="0.226"/>
+  <testcase name="[2] [8-3, card-8888]" classname="util.RequestUtilTest" time="0.002"/>
+  <testcase name="[3] [8-3, 11-2, card-7777]" classname="util.RequestUtilTest" time="0.002"/>
+  <testcase name="[1] 100, 50" classname="util.RequestUtilTest" time="0.007"/>
+  <testcase name="[2] 200.0, 25.0" classname="util.RequestUtilTest" time="0.005"/>
+  <testcase name="testCreateData()" classname="util.RequestUtilTest" time="0.442"/>
+  <testcase name="testDiscountPrice()" classname="util.RequestUtilTest" time="0.019"/>
+  <system-out><![CDATA[?????? ????????!!!
+?????? ????????!!!
+?????? ????????!!!
+|????????? ????                                  100,00    |
+|??????                                          15%       |
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
