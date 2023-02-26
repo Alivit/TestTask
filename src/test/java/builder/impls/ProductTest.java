@@ -8,27 +8,25 @@ import model.Product;
 
 @AllArgsConstructor
 @With
-public class ProductTest implements TestBuilder<Product> {
+public class ProductTest implements TestBuilder<Product.Builder> {
     private int id = 1;
-    private String name = "";
+    private String name = "Паста";
     private int amount = 1;
     private double price = 1;
     private String status = "default";
 
-    private ProductTest(){}
+    private ProductTest() {
+    }
 
-    public static ProductTest aProduct(){
+    public static ProductTest aProduct() {
         return new ProductTest();
     }
 
     @Override
-    public Product build() {
-        final var server = new Product();
-        server.setId(id);
-        server.setName(name);
+    public Product.Builder build() {
+        final var server = new Product.Builder(id, name, price, status);
         server.setAmount(amount);
-        server.setPrice(price);
-        server.setStatus(status);
+        ;
         return server;
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="logic.OutputLogicTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-02-26T20:59:23" hostname="LAPTOP-K0G8TMI0" time="0.096">
+  <properties/>
+  <testcase name="testDiscountPrice()" classname="logic.OutputLogicTest" time="0.096"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

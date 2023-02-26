@@ -3,8 +3,6 @@ package util;
 import database.DBConnection;
 import logic.OutputLogic;
 import model.DiscountCard;
-import model.Product;
-import builder.impls.ProductTest;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
