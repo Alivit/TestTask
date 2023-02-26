@@ -1,10 +1,8 @@
 package util;
 
 import database.DBConnection;
-import logic.OutputLogic;
-import model.DiscountCard;
 
-import org.junit.jupiter.api.Assertions;
+import model.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,7 +12,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -47,37 +44,20 @@ class RequestUtilTest {
     }
 
     @Test
-    public void testDiscountPrice(){
+    void testPriceCalculation() {
 
-        ArrayList<DiscountCard> cards = new ArrayList<>();
-        List<Integer> codeCard = new ArrayList<>();
+        Map<Integer, Integer> orderMap = new HashMap<>();
+        ArrayList<Product.Builder> product = new ArrayList<>();
 
-        cards.add(new DiscountCard(1,1234,15));
-        codeCard.add(1234);
+        orderMap.put(2, 4);
+        product.add(new Product.Builder(2, "Сыр", 2.12, "акция"));
 
-        request.setCards(cards);
-        request.setCodeCard(codeCard);
+        request.setOrderMap(orderMap);
+        request.setProducts(product);
+        request.comparison();
 
-        Assertions.assertEquals(85, OutputLogic.discountCalculation(100,request));
+        assertThat(request.getPromotional().get(0).getNewPrice()).isEqualTo(8.48);
     }
-
-
-
-//    @Test
-//    void testPriceCalculation() {
-//
-//        Map<Integer, Integer> orderMap = new HashMap<>();
-//        ArrayList<Product> product = new ArrayList<>();
-//
-//        orderMap.put(2, 4);
-//        product.add(ProductTest.aProduct().build());
-//
-//        request.setOrderMap(orderMap);
-//
-//        request.comparison();
-//
-//        Assertions.assertEquals(8.48, request.getPromotional().get(0).getNewPrice());
-//    }
 
     @Test
     void testCreateData() throws SQLException {

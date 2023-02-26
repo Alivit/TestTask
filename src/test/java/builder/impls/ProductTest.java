@@ -11,9 +11,9 @@ import model.Product;
 public class ProductTest implements TestBuilder<Product.Builder> {
     private int id = 1;
     private String name = "Паста";
-    private int amount = 1;
-    private double price = 1;
-    private String status = "default";
+    private int amount = 3;
+    private double price = 2.12;
+    private String status = "акция";
 
     private ProductTest() {
     }
