@@ -7,8 +7,7 @@ public class CheckRunner {
     static RequestUtil request = new RequestUtil();
 
     public static void main(String[] args) throws Exception{
-        String[] lol = {"1-2", "3-4", "5-2", "card-1234"};
-        RequestUtil.parseRequest(lol);
+        RequestUtil.parseRequest(args);
         DBConnection.init();
         request.workWithBD(request);
         request.comparison();
