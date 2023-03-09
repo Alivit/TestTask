@@ -11,6 +11,8 @@ public class DiscountCard {
         this.discount = discount;
     }
 
+    public DiscountCard(){}
+
     public int getId() {
         return id;
     }
