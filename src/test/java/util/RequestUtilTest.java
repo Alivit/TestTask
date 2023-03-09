@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,7 +61,7 @@ class RequestUtilTest {
     }
 
     @Test
-    void testCreateData() throws SQLException {
+    void testCreateData() throws SQLException, FileNotFoundException {
 
         DBConnection.init();
         request.workWithBD();

@@ -11,7 +11,7 @@ public class LRU<T> implements Cache<T>{
     private final DoubleLinkedList queue;
 
 
-    LRU(final int capacity){
+    public LRU(final int capacity){
         this.capacity = capacity;
         this.hashmap = new HashMap<>();
         this.queue = new DoubleLinkedList();
@@ -69,9 +69,9 @@ public class LRU<T> implements Cache<T>{
                 head = tail = node;
                 return;
             }
-            node.next = tail;
-            tail.prev = node;
-            tail = node;
+            node.next = head;
+            head.prev = node;
+            head = node;
         }
 
         public void toHead(final Node node){

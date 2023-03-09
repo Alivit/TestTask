@@ -7,6 +7,7 @@ import entity.Promotional;
 import service.DiscountCardService;
 import service.ProductService;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,7 +78,7 @@ public class RequestUtil {
         return firstPart.equals("card") && isNumber(secondPart);
     }
 
-    public void workWithBD() throws SQLException {
+    public void workWithBD() throws SQLException, FileNotFoundException {
         DiscountCardService discountCardService = new DiscountCardService();
         ProductService productService = new ProductService();
 

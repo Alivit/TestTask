@@ -1,18 +1,28 @@
 package service;
 
+import caches.LRU;
 import dao.ProductDAO;
 import database.DBConnection;
 import entity.Product;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProductService implements ProductDAO {
 
     Connection connection = DBConnection.getConnection();
     PreparedStatement preparedStatement = null;
     Statement statement = null;
+    Map<String, Map<String,Object>> data = new Yaml().load(new FileReader("src/main/resources/application.yml"));
+    LRU<Product.Builder> lru = new LRU<>((Integer) data.get("cache").get("capacity"));
+
+    public ProductService() throws FileNotFoundException {
+    }
 
     @Override
     public void add(Product.Builder product) throws SQLException {
@@ -39,6 +49,7 @@ public class ProductService implements ProductDAO {
 
     @Override
     public List<Product.Builder> getAll() throws SQLException {
+        int counter = 0;
         List<Product.Builder> productList = new ArrayList<>();
 
         String sql = "SELECT * FROM product";
@@ -49,11 +60,13 @@ public class ProductService implements ProductDAO {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()){
+
                 Product.Builder product = new Product.Builder();
                 product.build().setId(resultSet.getInt("id"));
                 product.build().setName(resultSet.getString("name"));
                 product.build().setPrice(resultSet.getDouble("price"));
                 product.build().setStatus(resultSet.getString("status"));
+                lru.put(String.valueOf(counter), product);
 
                 productList.add(product);
             }

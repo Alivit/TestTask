@@ -7,23 +7,26 @@ import java.util.TreeMap;
 public class LFU<T> implements Cache<T>{
 
     private int size;
-    private final int capacity;
 
     private final Map<String, Node> hashmap;
     private final Map<String, Integer> counterMap;
     private final Map<String, DoubleLinkedList> frequencyMap;
 
     public LFU(int capacity){
-        this.capacity = capacity;
+        size = capacity;
         this.counterMap = new HashMap<>();
         this.hashmap = new HashMap<>();
         this.frequencyMap = new TreeMap<>();
-        this.size = 0;
     }
 
     public T get(final String key){
         Node deletedNode = hashmap.get(key);
-        Node node = new Node(key, deletedNode.value);
+        Node node;
+        try {
+            node = new Node(key, deletedNode.value);
+        } catch (NullPointerException e){
+            return null;
+        }
 
         int frequency = counterMap.get(key);
         frequencyMap.get(String.valueOf(frequency)).remove(deletedNode);
@@ -44,7 +47,7 @@ public class LFU<T> implements Cache<T>{
         if (!hashmap.containsKey(key) && size > 0){
             Node node = new Node(key, value);
 
-            if(size == capacity){
+            if(hashmap.size() == size){
                 String lowestCount = frequencyMap.keySet().stream().findFirst().get();
                 Node deletedNode = frequencyMap.get(lowestCount).head();
 

@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,18 +18,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProductServiceTest {
 
     ProductService productService = null;
-    private static Stream<Arguments> cardArgumentsProvider(){
+    private static Stream<Arguments> productArgumentsProvider(){
         return Stream.of(
                 Arguments.of(new Product.Builder(12, "Milk", 3.14, "promotion"))
         );
     }
     @BeforeEach
-    void init(){
+    void init() throws FileNotFoundException {
         DBConnection.init();
         productService = new ProductService();
     }
     @ParameterizedTest
-    @MethodSource("cardArgumentsProvider")
+    @MethodSource("productArgumentsProvider")
     public void addTest(Product.Builder product) throws SQLException {
         productService.add(product);
         assertThat(productService.preparedStatement.toString().contains("Milk")).isTrue();
@@ -42,14 +43,14 @@ class ProductServiceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("cardArgumentsProvider")
+    @MethodSource("productArgumentsProvider")
     public void removeTest(Product.Builder product) throws SQLException {
         productService.remove(product);
         assertThat(productService.preparedStatement.toString().contains("12")).isTrue();
     }
 
     @ParameterizedTest
-    @MethodSource("cardArgumentsProvider")
+    @MethodSource("productArgumentsProvider")
     public void updateTest(Product.Builder product) throws SQLException {
         productService.update(product);
         assertThat(productService.preparedStatement.toString().contains("3.14")).isTrue();
