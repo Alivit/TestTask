@@ -10,6 +10,11 @@ public class QueryService {
 
     public static ResultSet get(String query) throws SQLException {
         Statement statement = DBConnection.getStatement();
-        return statement.executeQuery(query);
+        try {
+            return statement.executeQuery(query);
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
     }
 }

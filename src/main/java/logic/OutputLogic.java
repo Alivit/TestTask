@@ -5,12 +5,32 @@ import util.RequestUtil;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OutputLogic {
 
     private static final NumberFormat FORMATER = new DecimalFormat("#0.00");
+    private static Date dateNow = new Date();
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm:ss a zzz");
+    private static List<String> check = List.of(
+            "+--------------------------------------------------------+",
+            "Кассовый чек №111",
+            "ИП Иванов Иван Иванович",
+            "г.Минск ул.Вокзальная, 32",
+            "Текущая дата " + dateFormat.format(dateNow),
+            "+--------------------------------------------------------+",
+            "КАССОВЫЙ ЧЕК/ПРИХОД",
+            "",
+            "РН ККТ 000006547677567756",
+            "ФН 87100065476564584",
+            "+--------------------------------------------------------+",
+            "Наименование              Цена       Кол-во     Стоим-ть  ",
+            "+--------------------------------------------------------+"
+    );
 
+    static List<String> checkList = new ArrayList<>(check);
 
     public static String centerString (int width, String s) {
         return String.format("|%-" + width  + "s|", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
@@ -19,38 +39,28 @@ public class OutputLogic {
     private static double printProduct(double total, RequestUtil request){
         for (int i = 0; i < request.getPromotional().size(); i++) {
             total = total + request.getPromotional().get(i).getNewPrice();
-            System.out.format("|%-25s %-10s %-10s %-10s|%n", request.getPromotional().get(i).getName(),
+            checkList.add(String.format("%-25s %-10s %-10s %-10s", request.getPromotional().get(i).getName(),
                     request.getPromotional().get(i).getPrice(),
                     request.getPromotional().get(i).getAmount(),
-                    FORMATER.format(request.getPromotional().get(i).getNewPrice()));
+                    FORMATER.format(request.getPromotional().get(i).getNewPrice())));
         }
         return total;
     }
 
-    public static void  getReceipt(RequestUtil request){
+    public static List<String> getReceipt(RequestUtil request){
         double total = 0.0;
-        Date dateNow = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm:ss a zzz");
-        System.out.println("+----------------------------------------------------------+");
-        System.out.println(centerString(58,"Кассовый чек №111"));
-        System.out.println(centerString(58,"ИП Иванов Иван Иванович"));
-        System.out.println(centerString(58,"г.Минск ул.Вокзальная, 32"));
-        System.out.println(centerString(58,"Текущая дата " + dateFormat.format(dateNow)));
-        System.out.println("+----------------------------------------------------------+");
-        System.out.println(centerString(58,"КАССОВЫЙ ЧЕК/ПРИХОД"));
-        System.out.println(centerString(58,""));
-        System.out.println(centerString(58,"РН ККТ 000006547677567756"));
-        System.out.println(centerString(58,"ФН 87100065476564584"));
-        System.out.println("+----------------------------------------------------------+");
-        System.out.format("|%-25s %-10s %-10s %-10s|%n","Наименование","Цена","Кол-во","Стоим-ть");
-        System.out.println("+----------------------------------------------------------+");
         total = printProduct(total, request);
-        System.out.println(centerString(58,""));
+        checkList.add("");
         total = discountCalculation(total, request);
-        System.out.format("|%-47s %-10s|%n", "ИТОГО", FORMATER.format(total));
-        System.out.println("+----------------------------------------------------------+");
-        System.out.println(centerString(58,"СПАСИБО ЗА ПОКУПКУ"));
-        System.out.println("+----------------------------------------------------------+");
+        checkList.add(String.format("%-47s %-10s", "ИТОГО", FORMATER.format(total)));
+        checkList.add("+--------------------------------------------------------+");
+        checkList.add("СПАСИБО ЗА ПОКУПКУ");
+        checkList.add("+--------------------------------------------------------+");
+        return checkList;
+    }
+
+    public static void viewReceipt(RequestUtil request){
+        getReceipt(request).forEach(s-> System.out.println(centerString(58,s)));
     }
 
     public static double discountCalculation(double total, RequestUtil request){
@@ -58,8 +68,8 @@ public class OutputLogic {
             for (int i = 0; i < request.getCards().size(); i++) {
                 if (request.getCards().get(i).getCode() == request.getCodeCard().get(0)) {
                     double newTotal = total - request.percent(total, request.getCards().get(i).getDiscount());
-                    System.out.format("|%-47s %-10s|%n", "НАЧАЛЬНАЯ ЦЕНА", FORMATER.format(total));
-                    System.out.format("|%-47s %s%-8s|%n", "СКИДКА", request.getCards().get(i).getDiscount(), "%");
+                    checkList.add(String.format("%-47s %-10s", "НАЧАЛЬНАЯ ЦЕНА", FORMATER.format(total)));
+                    checkList.add(String.format("%-47s %s%-8s", "СКИДКА", request.getCards().get(i).getDiscount(),"%"));
                     return newTotal;
                 }
             }
@@ -67,5 +77,13 @@ public class OutputLogic {
             return total;
         }
         return total;
+    }
+
+    public static List<String> getCheckList() {
+        return checkList;
+    }
+
+    public static void setCheckList(List<String> checkList) {
+        OutputLogic.checkList = checkList;
     }
 }

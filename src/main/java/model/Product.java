@@ -7,6 +7,8 @@ public class Product {
     private double price;
     private String status;
 
+    public Product() {}
+
     public int getId() {
         return id;
     }
@@ -58,4 +60,23 @@ public class Product {
         }
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
