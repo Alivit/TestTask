@@ -13,20 +13,20 @@ public class OutputLogic {
 
     private static final NumberFormat FORMATER = new DecimalFormat("#0.00");
     private static Date dateNow = new Date();
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("E yyyy.MM.dd 'и время' hh:mm:ss a zzz");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("E yyyy.MM.dd 'and time' hh:mm:ss a zzz");
     private static List<String> check = List.of(
             "+--------------------------------------------------------+",
-            "Кассовый чек №111",
-            "ИП Иванов Иван Иванович",
-            "г.Минск ул.Вокзальная, 32",
-            "Текущая дата " + dateFormat.format(dateNow),
+            "cash receipt 111",
+            "IP Ivanov Ivan Ivanovich",
+            "Minsk, Vokzalnaya street, 32",
+            "Current date " + dateFormat.format(dateNow),
             "+--------------------------------------------------------+",
-            "КАССОВЫЙ ЧЕК/ПРИХОД",
+            "CASH CHECK/INCOME",
             "",
-            "РН ККТ 000006547677567756",
-            "ФН 87100065476564584",
+            "RN KTT 000006547677567756",
+            "FN 87100065476564584",
             "+--------------------------------------------------------+",
-            "Наименование              Цена       Кол-во     Стоим-ть  ",
+            "name             price           amount            costs  ",
             "+--------------------------------------------------------+"
     );
 
@@ -52,9 +52,9 @@ public class OutputLogic {
         total = printProduct(total, request);
         checkList.add("");
         total = discountCalculation(total, request);
-        checkList.add(String.format("%-47s %-10s", "ИТОГО", FORMATER.format(total)));
+        checkList.add(String.format("%-47s %-10s", "Total", FORMATER.format(total)));
         checkList.add("+--------------------------------------------------------+");
-        checkList.add("СПАСИБО ЗА ПОКУПКУ");
+        checkList.add("THANK YOU FOR YOUR PURCHASE");
         checkList.add("+--------------------------------------------------------+");
         return checkList;
     }
@@ -68,8 +68,8 @@ public class OutputLogic {
             for (int i = 0; i < request.getCards().size(); i++) {
                 if (request.getCards().get(i).getCode() == request.getCodeCard().get(0)) {
                     double newTotal = total - request.percent(total, request.getCards().get(i).getDiscount());
-                    checkList.add(String.format("%-47s %-10s", "НАЧАЛЬНАЯ ЦЕНА", FORMATER.format(total)));
-                    checkList.add(String.format("%-47s %s%-8s", "СКИДКА", request.getCards().get(i).getDiscount(),"%"));
+                    checkList.add(String.format("%-47s %-10s", "STARTING PRICE", FORMATER.format(total)));
+                    checkList.add(String.format("%-47s %s%-8s", "DISCOUNT", request.getCards().get(i).getDiscount(),"%"));
                     return newTotal;
                 }
             }

@@ -98,7 +98,7 @@ public class LRU<T> implements Cache<T>{
                 return;
             }
 
-            System.out.println("Удалённый ключ: " + tail.key);
+            System.out.println("Deleted key: " + tail.key);
             if (head == tail){
                 head = tail = null;
             }else {

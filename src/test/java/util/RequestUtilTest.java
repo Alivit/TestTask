@@ -2,7 +2,7 @@ package util;
 
 import database.DBConnection;
 
-import model.Product;
+import entity.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -50,7 +50,7 @@ class RequestUtilTest {
         ArrayList<Product.Builder> product = new ArrayList<>();
 
         orderMap.put(2, 4);
-        product.add(new Product.Builder(2, "—˚", 2.12, "‡ÍˆËˇ"));
+        product.add(new Product.Builder(2, "–°—ã—Ä", 2.12, "–∞–∫—Ü–∏—è"));
 
         request.setOrderMap(orderMap);
         request.setProducts(product);
@@ -63,7 +63,7 @@ class RequestUtilTest {
     void testCreateData() throws SQLException {
 
         DBConnection.init();
-        request.workWithBD(request);
+        request.workWithBD();
 
         assertThat(request.getProducts().size()).isNotEqualTo(0);
 

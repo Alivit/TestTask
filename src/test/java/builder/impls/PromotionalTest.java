@@ -4,7 +4,7 @@ import builder.interf.TestBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.With;
-import model.Promotional;
+import entity.Promotional;
 
 @AllArgsConstructor
 @With

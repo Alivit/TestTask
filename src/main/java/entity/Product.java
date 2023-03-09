@@ -1,4 +1,6 @@
-package model;
+package entity;
+
+import java.util.Objects;
 
 public class Product {
     private int id;
@@ -51,6 +53,8 @@ public class Product {
             this.status = status;
         }
 
+        public Builder(){}
+
         public void setAmount(int amount) {
             this.amount = amount;
         }
@@ -78,5 +82,29 @@ public class Product {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return getId() == product.getId() && getAmount() == product.getAmount() && Double.compare(product.getPrice(), getPrice()) == 0 && getName().equals(product.getName()) && Objects.equals(getStatus(), product.getStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getAmount(), getPrice(), getStatus());
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", price=" + price +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

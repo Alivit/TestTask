@@ -26,6 +26,7 @@ dockerRun{
 }
 dependencies {
     implementation 'junit:junit:4.13.1'
+    implementation 'org.yaml:snakeyaml:1.21'
     testImplementation 'org.mockito:mockito-core:2.24.0'
     implementation 'org.projectlombok:lombok:1.18.20'
     testImplementation 'org.assertj:assertj-core:3.6.1'

@@ -2,16 +2,14 @@ package file;
 
 import builder.impls.PromotionalTest;
 import logic.OutputLogic;
-import model.Promotional;
+import entity.Promotional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import util.RequestUtil;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;

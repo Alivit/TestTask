@@ -1,14 +1,12 @@
 package util;
 
 import exception.CardOrProductException;
-import model.DiscountCard;
-import model.Product;
-import model.Promotional;
-import repository.factory.RepositoryManager;
-import repository.interf.Repository;
-import service.QueryService;
+import entity.DiscountCard;
+import entity.Product;
+import entity.Promotional;
+import service.DiscountCardService;
+import service.ProductService;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,9 +15,9 @@ import java.util.Map;
 
 public class RequestUtil {
 
-    private ArrayList<Product.Builder> products;
-    private ArrayList<DiscountCard> cards;
-    private ArrayList<Promotional> promotional;
+    private List<Product.Builder> products;
+    private List<DiscountCard> cards;
+    private List<Promotional> promotional;
 
     private static List<Integer> codeCard;
     private static Map<Integer, Integer> orderMap;
@@ -29,7 +27,7 @@ public class RequestUtil {
         orderMap = new HashMap<>();
 
         if(args.length == 0){
-            System.out.println("Некорректный запрос");
+            System.out.println("Uncorrected request");
             System.exit(0);
         }
 
@@ -45,7 +43,7 @@ public class RequestUtil {
                 } else if (isProductPair(firstPart,secondPart)) {
                     orderMap.put(Integer.parseInt(firstPart), Integer.parseInt(secondPart));
                 } else {
-                    throw new CardOrProductException("Некорректный запрос");
+                    throw new CardOrProductException("Uncorrected request");
                 }
 
             } catch (Exception e) {
@@ -55,11 +53,11 @@ public class RequestUtil {
         }
 
         if(orderMap.size() == 0){
-            System.out.println("Некорректный запрос");
+            System.out.println("Uncorrected request");
             System.exit(0);
         }
 
-        System.out.println("Запрос добавлен!!!");
+        System.out.println("Request will added!!!");
     }
 
     private static boolean isNumber(String s) {
@@ -79,20 +77,14 @@ public class RequestUtil {
         return firstPart.equals("card") && isNumber(secondPart);
     }
 
-    public void createData(String type, String query,RequestUtil request) throws SQLException {
-        Repository repository = RepositoryManager.getRepository(type);
-        ResultSet resultSet = QueryService.get(query);
-        repository.get(resultSet, request);
-    }
+    public void workWithBD() throws SQLException {
+        DiscountCardService discountCardService = new DiscountCardService();
+        ProductService productService = new ProductService();
 
-    public void workWithBD(RequestUtil request) throws SQLException {
-        products = new ArrayList<>();
-        createData("PRODUCT", "select * from product", request);
-
+        products = productService.getAll();
         try {
             if (codeCard.size() != 0) {
-                cards = new ArrayList<>();
-                createData("DISCOUNT_CARD", "select * from discount_card", request);
+                cards = discountCardService.getAll();
             }
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
@@ -119,9 +111,9 @@ public class RequestUtil {
         products.get(i).setAmount(item.getValue());
         try {
             if(products.get(i).build().getStatus() == null) {
-                throw new Exception("Статус дефолтный!!!");
+                throw new Exception("Default status!!!");
             }
-            else if(products.get(i).build().getStatus().equals("акция") && item.getValue() >= 5){
+            else if(products.get(i).build().getStatus().equals("promotion") && item.getValue() >= 5){
                 newPrice = products.get(i).build().getPrice() * item.getValue()
                         - percent(products.get(i).build().getPrice() * item.getValue(), 10);
             }else{
@@ -150,15 +142,15 @@ public class RequestUtil {
         return codeCard;
     }
 
-    public ArrayList<Product.Builder> getProducts() {
+    public List<Product.Builder> getProducts() {
         return products;
     }
 
-    public ArrayList<DiscountCard> getCards() {
+    public List<DiscountCard> getCards() {
         return cards;
     }
 
-    public ArrayList<Promotional> getPromotional() {
+    public List<Promotional> getPromotional() {
         return promotional;
     }
 
@@ -170,15 +162,15 @@ public class RequestUtil {
         this.codeCard = codeCard;
     }
 
-    public void setProducts(ArrayList<Product.Builder> products) {
+    public void setProducts(List<Product.Builder> products) {
         this.products = products;
     }
 
-    public void setCards(ArrayList<DiscountCard> cards) {
+    public void setCards(List<DiscountCard> cards) {
         this.cards = cards;
     }
 
-    public void setPromotional(ArrayList<Promotional> promotional) {
+    public void setPromotional(List<Promotional> promotional) {
         this.promotional = promotional;
     }
 }

@@ -4,7 +4,7 @@ import builder.interf.TestBuilder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.With;
-import model.DiscountCard;
+import entity.DiscountCard;
 
 @AllArgsConstructor
 @NoArgsConstructor(staticName = "aDiscountCard")
