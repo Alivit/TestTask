@@ -1,6 +1,12 @@
 package exception;
 
+/**
+ * Класс ошибок
+ */
 public class CardOrProductException extends Exception{
+    /**
+     * Поле хранящее сообщение об ошибке
+     */
     private String message;
 
     public CardOrProductException(String message) {

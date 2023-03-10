@@ -13,21 +13,21 @@ create table discount_card(
     discount integer
 );
 
-INSERT INTO product (name, price, status) VALUES ('Хлеб нарезной', 1.23, default);
-INSERT INTO product (name, price, status) VALUES ('Белый рис', 3.55, 'акция');
-INSERT INTO product (name, price, status) VALUES ('Куриные яйца', 3.7, default);
-INSERT INTO product (name, price, status) VALUES ('Местный сыр', 17, 'акция');
-INSERT INTO product (name, price, status) VALUES ('Куриное филе', 11.5, default);
-INSERT INTO product (name, price, status) VALUES ('Говяжий окорок', 20, 'акция');
-INSERT INTO product (name, price, status) VALUES ('Яблоки', 4, default);
-INSERT INTO product (name, price, status) VALUES ('Бананы', 5, default);
-INSERT INTO product (name, price, status) VALUES ('Апельсины', 5, 'акция');
-INSERT INTO product (name, price, status) VALUES ('Помидоры', 7.7, default);
-INSERT INTO product (name, price, status) VALUES ('Картофель', 2, default);
-INSERT INTO product (name, price, status) VALUES ('Лук', 1.9, 'акция');
-INSERT INTO product (name, price, status) VALUES ('Вода', 1.6, 'акция');
-INSERT INTO product (name, price, status) VALUES ('Вино', 20, default);
-INSERT INTO product (name, price, status) VALUES ('Сигареты', 4.5, default);
+INSERT INTO product (name, price, status) VALUES ('Bread', 1.23, default);
+INSERT INTO product (name, price, status) VALUES ('Res', 3.55, 'promotion');
+INSERT INTO product (name, price, status) VALUES ('Eggs', 3.7, default);
+INSERT INTO product (name, price, status) VALUES ('Cheese', 17, 'promotion');
+INSERT INTO product (name, price, status) VALUES ('Chicken fillet', 11.5, default);
+INSERT INTO product (name, price, status) VALUES ('Beef ham', 20, 'promotion');
+INSERT INTO product (name, price, status) VALUES ('Apples', 4, default);
+INSERT INTO product (name, price, status) VALUES ('Bananas', 5, default);
+INSERT INTO product (name, price, status) VALUES ('Oranges', 5, 'promotion');
+INSERT INTO product (name, price, status) VALUES ('Tomatoes', 7.7, default);
+INSERT INTO product (name, price, status) VALUES ('Potato', 2, default);
+INSERT INTO product (name, price, status) VALUES ('Onion', 1.9, 'promotion');
+INSERT INTO product (name, price, status) VALUES ('Water', 1.6, 'promotion');
+INSERT INTO product (name, price, status) VALUES ('Wine', 20, default);
+INSERT INTO product (name, price, status) VALUES ('Cigarettes', 4.5, default);
 
 INSERT INTO discount_card (code, discount) VALUES ('8888', '10');
 INSERT INTO discount_card (code, discount) VALUES ('1111', '13');

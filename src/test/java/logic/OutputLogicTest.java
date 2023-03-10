@@ -1,8 +1,8 @@
 package logic;
 
 import builder.impls.PromotionalTest;
-import model.DiscountCard;
-import model.Promotional;
+import entity.DiscountCard;
+import entity.Promotional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import util.RequestUtil;
@@ -17,7 +17,7 @@ class OutputLogicTest {
     @Test
     void testGetCheck(){
         RequestUtil request = new RequestUtil();
-        ArrayList<Promotional> promotionals = new ArrayList<>();
+        List<Promotional> promotionals = new ArrayList<>();
 
         promotionals.add(PromotionalTest.aPromotional().build());
         request.setPromotional(promotionals);
@@ -30,7 +30,7 @@ class OutputLogicTest {
     public void testDiscountPrice(){
 
         RequestUtil request = new RequestUtil();
-        ArrayList<DiscountCard> cards = new ArrayList<>();
+        List<DiscountCard> cards = new ArrayList<>();
         List<Integer> codeCard = new ArrayList<>();
 
         cards.add(new DiscountCard(1,1234,15));
