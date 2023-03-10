@@ -2,11 +2,29 @@ package entity;
 
 import java.util.Objects;
 
+/**
+ * Класс хранящий информацию о продуктах
+ */
 public class Product {
+    /**
+     * Поле с айди продукта
+     */
     private int id;
+    /**
+     * Поле с названием продукта
+     */
     private String name;
+    /**
+     * Поле с количеством продукта
+     */
     private int amount;
+    /**
+     * Поле с ценой продукта
+     */
     private double price;
+    /**
+     * Поле со статусом продукта
+     */
     private String status;
 
     public Product() {}

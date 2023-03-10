@@ -9,11 +9,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Класс вывода чека в терминале
+ */
 public class OutputLogic {
 
+    /**
+     * Это поле формата для цены
+     */
     private static final NumberFormat FORMATER = new DecimalFormat("#0.00");
+    /**
+     * Это поле даты
+     */
     private static Date dateNow = new Date();
+    /**
+     * Это поле формата даты
+     */
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("E yyyy.MM.dd 'and time' hh:mm:ss a zzz");
+    /**
+     * Это поле листа хранящее изображение чека первая половина
+     */
     private static List<String> check = List.of(
             "+--------------------------------------------------------+",
             "cash receipt 111",
@@ -30,12 +45,29 @@ public class OutputLogic {
             "+--------------------------------------------------------+"
     );
 
+    /**
+     * Это поле листа хранящее изображение чека вторая половина
+     */
     static List<String> checkList = new ArrayList<>(check);
 
+    /**
+     * Метод для выравнивания строки по центру
+     *
+     * @param width длина строки
+     * @param s сама строка
+     * @return возращает отформатирующуюся строку
+     */
     public static String centerString (int width, String s) {
         return String.format("|%-" + width  + "s|", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
     }
 
+    /**
+     * Метод вывода продуктов в чеке
+     *
+     * @param total цена
+     * @param request с списком продуктов
+     * @return возращает итоговую цену
+     */
     private static double printProduct(double total, RequestUtil request){
         for (int i = 0; i < request.getPromotional().size(); i++) {
             total = total + request.getPromotional().get(i).getNewPrice();
@@ -47,6 +79,12 @@ public class OutputLogic {
         return total;
     }
 
+    /**
+     * Метод формирования чека
+     *
+     * @param request с списком продуктов
+     * @return возращает изображения чека
+     */
     public static List<String> getReceipt(RequestUtil request){
         double total = 0.0;
         total = printProduct(total, request);
@@ -59,10 +97,20 @@ public class OutputLogic {
         return checkList;
     }
 
+    /**
+     * Метод вывода чека нак экран
+     */
     public static void viewReceipt(RequestUtil request){
         getReceipt(request).forEach(s-> System.out.println(centerString(58,s)));
     }
 
+    /**
+     * Метод вывода скидки за все продукты
+     *
+     * @param total цена
+     * @param request с списком продуктов
+     * @return возращает итоговую цену
+     */
     public static double discountCalculation(double total, RequestUtil request){
         try {
             for (int i = 0; i < request.getCards().size(); i++) {

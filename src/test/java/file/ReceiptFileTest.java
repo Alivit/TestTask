@@ -35,7 +35,7 @@ class ReceiptFileTest {
         request.setPromotional(promotionals);
 
         OutputLogic.getReceipt(request);
-        ReceiptFile.inputInFile(request);
+        ReceiptFile.inputInFile();
 
         try(FileReader reader = new FileReader(file)){
             Scanner scan = new Scanner(reader);

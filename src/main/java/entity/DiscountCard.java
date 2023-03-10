@@ -2,9 +2,21 @@ package entity;
 
 import java.util.Objects;
 
+/**
+ * Класс хранящий информацию о дисконтных картах
+ */
 public class DiscountCard {
+    /**
+     * Поле с айди карты
+     */
     private int id;
+    /**
+     * Поле с кодом карты
+     */
     private int code;
+    /**
+     * Поле с размером скидки карты
+     */
     private int discount;
 
     public DiscountCard(int id, int code, int discount) {

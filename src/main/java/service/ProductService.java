@@ -13,17 +13,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс сервис crud операций для работы с продуктами
+ */
 public class ProductService implements ProductDAO {
 
+    /**
+     * Это поле класа получения подключения к базе данных
+     * @see Connection
+     */
     Connection connection = DBConnection.getConnection();
+    /**
+     * Это поле класса запросов к базе данных
+     */
     PreparedStatement preparedStatement = null;
+    /**
+     * Это поле класса запросов к базе данных
+     */
     Statement statement = null;
+    /**
+     * Это поле которое считывает данные с файла application.yml
+     */
     Map<String, Map<String,Object>> data = new Yaml().load(new FileReader("src/main/resources/application.yml"));
+    /**
+     * Это поле класса кэша на основе lru
+     */
     LRU<Product.Builder> lru = new LRU<>((Integer) data.get("cache").get("capacity"));
 
     public ProductService() throws FileNotFoundException {
     }
 
+    /**
+     * Метод созданный для добавления данных в таблицу product
+     * @param product объект класса Product.Builder
+     */
     @Override
     public void add(Product.Builder product) throws SQLException {
 
@@ -47,6 +70,10 @@ public class ProductService implements ProductDAO {
         }
     }
 
+    /**
+     * Метод чтения данных из таблицы product
+     * @return лист с полученными данными из баззы данных
+     */
     @Override
     public List<Product.Builder> getAll() throws SQLException {
         int counter = 0;
@@ -85,6 +112,10 @@ public class ProductService implements ProductDAO {
         return productList;
     }
 
+    /**
+     * Метод созданный для обновления данных в таблице product
+     * @param product объект класса Product.Builder
+     */
     @Override
     public void update(Product.Builder product) throws SQLException {
         String sql = "UPDATE product SET name=?, price=?, status=?";
@@ -107,6 +138,10 @@ public class ProductService implements ProductDAO {
         }
     }
 
+    /**
+     * Метод созданный для удалённых данных из таблицы product по id
+     * @param product объект класса Product.Builder
+     */
     @Override
     public void remove(Product.Builder product) throws SQLException {
         String sql = "DELETE FROM product WHERE ID=?";

@@ -4,12 +4,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Класс кэша по реализацией алгоритма lfu
+ */
 public class LFU<T> implements Cache<T>{
 
+    /**
+     * Поле которое хранит размер кэша
+     */
     private int size;
 
+    /**
+     * Поле ключ-карт со значениями
+     */
     private final Map<String, Node> hashmap;
+    /**
+     * Поле ключ-карт с счётчиком
+     */
     private final Map<String, Integer> counterMap;
+    /**
+     * Поле ключ-карт с количеством частоты пользования
+     */
     private final Map<String, DoubleLinkedList> frequencyMap;
 
     public LFU(int capacity){
@@ -19,6 +34,12 @@ public class LFU<T> implements Cache<T>{
         this.frequencyMap = new TreeMap<>();
     }
 
+    /**
+     * Метод который извлекает эллемент из кэша и возвращает пользователю
+     *
+     * @param key ключ нужного значения
+     * @return возвращает нужное значение
+     */
     public T get(final String key){
         Node deletedNode = hashmap.get(key);
         Node node;
@@ -43,6 +64,14 @@ public class LFU<T> implements Cache<T>{
         return hashmap.get(key).value;
     }
 
+    /**
+     * Метод вставки элемента в коллекцию кэша
+     * Если место в кэше заканчивает, а нужно добавить элемент
+     * тогда удаляется менне используемый элемент
+     *
+     * @param key ключ элемента
+     * @param value значение элеметна
+     */
     public void put(final String key, final T value){
         if (!hashmap.containsKey(key) && size > 0){
             Node node = new Node(key, value);
@@ -83,6 +112,9 @@ public class LFU<T> implements Cache<T>{
         }
     }
 
+    /**
+     * Вспомогательный класс для опредения положения элемента
+     */
     private class Node {
         String key;
         T value;
@@ -95,6 +127,9 @@ public class LFU<T> implements Cache<T>{
         }
     }
 
+    /**
+     * Вспомогательный класс двухсвязанного списка
+     */
     private class DoubleLinkedList{
         private int size;
         private Node head, tail;
@@ -102,6 +137,9 @@ public class LFU<T> implements Cache<T>{
             head = tail = null;
         }
 
+        /**
+         * Добавление элемента в список
+         */
         private void add(final Node node){
             if(head == null){
                 head = node;
@@ -112,6 +150,9 @@ public class LFU<T> implements Cache<T>{
             tail = node;
         }
 
+        /**
+         * Удаления элемента из списка
+         */
         private void remove(Node node){
             if(node.next == null) tail = node.prev;
             else node.next.prev = node.prev;

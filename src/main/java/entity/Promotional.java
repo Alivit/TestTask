@@ -1,10 +1,14 @@
 package entity;
 
-import entity.Product;
-
 import java.util.Objects;
 
+/**
+ * Класс хранящий продукцию со скидкой
+ */
 public class Promotional extends Product {
+    /**
+     * Поле хранит новую цену продукта с учётом скидки
+     */
     private double newPrice;
 
     public Promotional(Builder builder, double newPrice) {
