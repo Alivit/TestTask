@@ -25,11 +25,11 @@ public class OutputLogic {
     /**
      * Это поле формата даты
      */
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("E yyyy.MM.dd 'and time' hh:mm:ss a zzz");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat(" yyyy.MM.dd 'and time' hh:mm:ss a zzz");
     /**
      * Это поле листа хранящее изображение чека первая половина
      */
-    private static List<String> check = List.of(
+    private static final List<String> check = List.of(
             "+--------------------------------------------------------+",
             "cash receipt 111",
             "IP Ivanov Ivan Ivanovich",
@@ -41,7 +41,7 @@ public class OutputLogic {
             "RN KTT 000006547677567756",
             "FN 87100065476564584",
             "+--------------------------------------------------------+",
-            "name             price           amount            costs  ",
+            "name              price           amount        costs     ",
             "+--------------------------------------------------------+"
     );
 
@@ -71,7 +71,7 @@ public class OutputLogic {
     private static double printProduct(double total, RequestUtil request){
         for (int i = 0; i < request.getPromotional().size(); i++) {
             total = total + request.getPromotional().get(i).getNewPrice();
-            checkList.add(String.format("%-25s %-10s %-10s %-10s", request.getPromotional().get(i).getName(),
+            checkList.add(String.format("%-17s %-18s %-10s %-10s", request.getPromotional().get(i).getName(),
                     request.getPromotional().get(i).getPrice(),
                     request.getPromotional().get(i).getAmount(),
                     FORMATER.format(request.getPromotional().get(i).getNewPrice())));

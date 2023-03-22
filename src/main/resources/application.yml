@@ -1,8 +1,8 @@
 datasource:
      username: postgres
-     password: root
-     url: jdbc:postgresql://localhost:5432/SuperMarket
+     password: 241201
+     url: jdbc:postgresql://localhost:5433/postgres
 #memory
 cache:
      algorithm: lru
-     capasity: 5
+     capacity: 5

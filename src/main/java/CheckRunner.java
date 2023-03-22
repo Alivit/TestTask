@@ -27,7 +27,7 @@ public class CheckRunner {
      * @return ничего
      */
     public static void main(String[] args) throws Exception {
-        String[] lol = new String[]{"3-1","5-2", "6-2"};
+        String[] lol = new String[]{"1-1","2-1", "3-9", "4-10", "card-8888"};
         RequestUtil.parseRequest(lol);
         DBConnection.init();
         request.workWithBD();

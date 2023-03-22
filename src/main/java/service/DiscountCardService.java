@@ -64,7 +64,7 @@ public class DiscountCardService implements DiscountCardDAO {
 
     /**
      * Метод чтения данных из таблицы discount_card
-     * @return лист с полученными данными из баззы данных
+     * @return лист с полученными данными из базы данных
      */
     @Override
     public List<DiscountCard> getAll() throws SQLException {
@@ -79,13 +79,14 @@ public class DiscountCardService implements DiscountCardDAO {
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()){
-                DiscountCard card = new DiscountCard();
-                card.setId(resultSet.getInt("id"));
-                card.setCode(resultSet.getInt("code"));
-                card.setDiscount(resultSet.getInt("discount"));
-                lru.put(String.valueOf(counter), card);
 
+                DiscountCard card = new DiscountCard(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("code"),
+                        resultSet.getInt("discount")
+                );
                 cardList.add(card);
+                lru.put(String.valueOf(counter), card);
             }
 
         } catch (SQLException e) {

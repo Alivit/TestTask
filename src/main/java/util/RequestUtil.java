@@ -157,13 +157,13 @@ public class RequestUtil {
 
         promotional = new ArrayList<>();
         for(Map.Entry<Integer,Integer> item : orderMap.entrySet()){
-            for (int i = 0; i < products.size(); i++){
-                int id = products.get(i).build().getId();
-                if (id == item.getKey()){
-                    priceCalculation(i, item);
+            products.forEach(product ->{
+                if (product.build().getId() == item.getKey()){
+                    priceCalculation(product.build().getId() - 1, item);
                 }
-            }
+            });
         }
+        System.out.println(promotional.size());
     }
 
     /**
@@ -173,28 +173,12 @@ public class RequestUtil {
      * @param item ключ-карта которая содержит количество и айди продукта
      */
     private void priceCalculation(int i, Map.Entry<Integer, Integer> item){
-
-        double newPrice;
         products.get(i).setAmount(item.getValue());
-        try {
-            if(products.get(i).build().getStatus() == null) {
-                throw new Exception("Default status!!!");
-            }
-            else if(products.get(i).build().getStatus().equals("promotion") && item.getValue() >= 5){
-                newPrice = products.get(i).build().getPrice() * item.getValue()
-                        - percent(products.get(i).build().getPrice() * item.getValue(), 10);
-            }else{
-                newPrice = products.get(i).build().getPrice() * item.getValue();
-            }
-            promotional.add(new Promotional(products.get(i), newPrice));
+        double newPrice = products.get(i).build().getPrice() * item.getValue();
+        if(products.get(i).build().getStatus() != null || item.getValue() >= 5) {
+            newPrice = newPrice - percent(products.get(i).build().getPrice() * item.getValue(), 10);
         }
-        catch (NullPointerException e){
-            e.getMessage();
-        }
-        catch (Exception e){
-            newPrice = products.get(i).build().getPrice() * item.getValue();
-            promotional.add(new Promotional(products.get(i), newPrice));
-        }
+        promotional.add(new Promotional(products.get(i), newPrice));
     }
 
     /**

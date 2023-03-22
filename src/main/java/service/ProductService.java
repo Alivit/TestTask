@@ -88,25 +88,18 @@ public class ProductService implements ProductDAO {
 
             while (resultSet.next()){
 
-                Product.Builder product = new Product.Builder();
-                product.build().setId(resultSet.getInt("id"));
-                product.build().setName(resultSet.getString("name"));
-                product.build().setPrice(resultSet.getDouble("price"));
-                product.build().setStatus(resultSet.getString("status"));
-                lru.put(String.valueOf(counter), product);
-
+                Product.Builder product = new Product.Builder(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getDouble("price"),
+                        resultSet.getString("status")
+                );
                 productList.add(product);
+                lru.put(String.valueOf(counter), product);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (preparedStatement != null){
-                preparedStatement.close();
-            }
-            if (connection != null){
-                connection.close();
-            }
         }
 
         return productList;

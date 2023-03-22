@@ -22,7 +22,7 @@ public class ReceiptFile {
      * Метод который записывает чек в указанный файл
      */
     public static void inputInFile()  {
-        file = new File("..\\Testasknew\\src\\main\\resources\\Receipt.txt");
+        file = new File("src/main/resources/Receipt.txt");
         try(FileWriter writer = new FileWriter(file, false)){
             PrintWriter print = new PrintWriter(writer);
             OutputLogic.getCheckList().forEach(s -> print.println(centerString(58,s)));
