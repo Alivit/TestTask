@@ -1,5 +1,6 @@
-package file;
+package file.impls;
 
+import file.interf.Inputable;
 import logic.OutputLogic;
 import util.RequestUtil;
 
@@ -9,21 +10,22 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Класс записи чека в файл
+ * Класс записи чека в txt файл
  */
-public class ReceiptFile {
+public class ReceiptTXT implements Inputable {
 
     /**
      * Это поле указывающее на файл хранящий чек
      */
-    private static File file;
+    private final static File FILE_SOURCE = new File("src/main/resources/Receipt.txt");
 
     /**
      * Метод который записывает чек в указанный файл
+     *
+     *  @param request содержит список продуктов
      */
-    public static void inputInFile()  {
-        file = new File("src/main/resources/Receipt.txt");
-        try(FileWriter writer = new FileWriter(file, false)){
+    public void inputInFile(RequestUtil request)  {
+        try(FileWriter writer = new FileWriter(FILE_SOURCE, false)){
             PrintWriter print = new PrintWriter(writer);
             OutputLogic.getCheckList().forEach(s -> print.println(centerString(58,s)));
             print.close();

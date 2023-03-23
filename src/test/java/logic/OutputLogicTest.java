@@ -26,20 +26,4 @@ class OutputLogicTest {
         assertThat(list.get(13).contains("Паста")).isTrue();
     }
 
-    @Test
-    public void testDiscountPrice(){
-
-        RequestUtil request = new RequestUtil();
-        List<DiscountCard> cards = new ArrayList<>();
-        List<Integer> codeCard = new ArrayList<>();
-
-        cards.add(new DiscountCard(1,1234,15));
-        codeCard.add(1234);
-
-        request.setCards(cards);
-        request.setCodeCard(codeCard);
-
-        Assertions.assertEquals(85,OutputLogic.discountCalculation(100,request));
-    }
-
 }

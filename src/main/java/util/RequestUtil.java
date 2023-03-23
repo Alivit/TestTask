@@ -40,7 +40,7 @@ public class RequestUtil {
     /**
      * Это поле листа с кодами карт, которые были введены пользователем
      */
-    private static List<Integer> codeCard;
+    private static List<String> codeCard;
     /**
      * Это поле ключ-карты с количейтвом и айди продукции, которые были введены пользователем
      */
@@ -71,7 +71,7 @@ public class RequestUtil {
 
             try {
                 if (isCardPair(firstPart, secondPart)) {
-                    codeCard.add(Integer.parseInt(secondPart));
+                    codeCard.add(secondPart);
                 } else if (isProductPair(firstPart,secondPart)) {
                     orderMap.put(Integer.parseInt(firstPart), Integer.parseInt(secondPart));
                 } else {
@@ -182,6 +182,40 @@ public class RequestUtil {
     }
 
     /**
+     * Метод для рассчёта итоговой цены со скидкой по карте если она есть.
+     * Если скидочная карта не найдена вернёт просто итоговую цену
+     *
+     * @param total итоговая цена
+     * @return итоговую цену с учётом скидки или без
+     */
+    public double discountCalculation(double total){
+        try {
+            for (int i = 0; i < cards.size(); i++) {
+                if (cards.get(i).getCode().equals(codeCard.get(0))) {
+                    return total - percent(total, cards.get(i).getDiscount());
+                }
+            }
+        } catch (NullPointerException e) {
+            return total;
+        }
+        return total;
+    }
+
+    /**
+     * Метод для получение скидки
+     *
+     * @return скидку в процентах
+     */
+    public int getDiscount() {
+        for (int i = 0; i < cards.size(); i++) {
+            if (cards.get(i).getCode().equals(codeCard.get(0))) {
+                return cards.get(i).getDiscount();
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Метод для рассчёта процента по скидке.
      *
      * @param Sum итогова сумма
@@ -196,7 +230,7 @@ public class RequestUtil {
         return orderMap;
     }
 
-    public List<Integer> getCodeCard() {
+    public List<String> getCodeCard() {
         return codeCard;
     }
 
@@ -216,7 +250,7 @@ public class RequestUtil {
         this.orderMap = orderMap;
     }
 
-    public void setCodeCard(List<Integer> codeCard) {
+    public void setCodeCard(List<String> codeCard) {
         this.codeCard = codeCard;
     }
 
@@ -231,4 +265,5 @@ public class RequestUtil {
     public void setPromotional(List<Promotional> promotional) {
         this.promotional = promotional;
     }
+
 }
