@@ -89,6 +89,22 @@ class RequestUtilTest {
         assertThat(request.discountCalculation(100)).isEqualTo(85);
     }
 
+    @Test
+    public void testDiscountPriceNotFound(){
+
+        RequestUtil request = new RequestUtil();
+        List<DiscountCard> cards = new ArrayList<>();
+        List<String> codeCard = new ArrayList<>();
+
+        cards.add(new DiscountCard(1,"1234",15));
+        codeCard.add("8888");
+
+        request.setCards(cards);
+        request.setCodeCard(codeCard);
+
+        assertThat(request.discountCalculation(100)).isEqualTo(100);
+    }
+
 
     @Test
     void testGetDiscount() {

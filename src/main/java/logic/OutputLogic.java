@@ -28,7 +28,7 @@ public class OutputLogic {
      */
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(" yyyy.MM.dd 'and time' hh:mm:ss a zzz");
     /**
-     * Это поле листа хранящее изображение чека первая половина
+     * Это поле листа хранящее изображение заглавия чека
      */
     private static List<String> check = List.of(
             "+--------------------------------------------------------+",
@@ -47,7 +47,7 @@ public class OutputLogic {
     );
 
     /**
-     * Это поле листа хранящее изображение чека вторая половина
+     * Это поле листа хранящее изображение чека - вторая половина
      */
     static List<String> checkList = new ArrayList<>(check);
 
@@ -63,9 +63,9 @@ public class OutputLogic {
     }
 
     /**
-     * Метод вывода продуктов в чеке
+     * Метод добавление всех продуктов в лист чека
      *
-     * @param request с списком продуктов
+     * @param request со списком продуктов
      */
     private static void printProduct(RequestUtil request){
         for (int i = 0; i < request.getPromotional().size(); i++) {
@@ -101,9 +101,9 @@ public class OutputLogic {
     }
 
     /**
-     * Метод вывода скидки за все продукты
+     * Метод вывода общей цены за все продукты(со скидкой или без)
      *
-     * @param request с списком продуктов
+     * @param request со списком продуктов
      */
     public static void printTotalPrice(RequestUtil request){
         double total = request.getPromotional().stream()

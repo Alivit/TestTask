@@ -2,7 +2,7 @@ package file;
 
 import builder.impls.PromotionalTest;
 import file.factory.FileRepository;
-import file.impls.ReceiptFile;
+import file.impls.ReceiptTXT;
 import file.interf.Inputable;
 import logic.OutputLogic;
 import entity.Promotional;
@@ -17,12 +17,12 @@ import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ReceiptFileTest {
+class ReceiptTXTTest {
 
     @ParameterizedTest
     @CsvSource(value = {"12,lol"})
     void testCenterString (int width, String s){
-        String str = ReceiptFile.centerString(width,s);
+        String str = ReceiptTXT.centerString(width,s);
 
         assertThat(str).hasSize(14);
         assertThat(str.contains("lol")).isTrue();

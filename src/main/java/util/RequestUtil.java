@@ -181,6 +181,13 @@ public class RequestUtil {
         promotional.add(new Promotional(products.get(i), newPrice));
     }
 
+    /**
+     * Метод для рассчёта итоговой цены со скидкой по карте если она есть.
+     * Если скидочная карта не найдена вернёт просто итоговую цену
+     *
+     * @param total итоговая цена
+     * @return итоговую цену с учётом скидки или без
+     */
     public double discountCalculation(double total){
         try {
             for (int i = 0; i < cards.size(); i++) {
@@ -194,6 +201,11 @@ public class RequestUtil {
         return total;
     }
 
+    /**
+     * Метод для получение скидки
+     *
+     * @return скидку в процентах
+     */
     public int getDiscount() {
         for (int i = 0; i < cards.size(); i++) {
             if (cards.get(i).getCode().equals(codeCard.get(0))) {
@@ -202,6 +214,7 @@ public class RequestUtil {
         }
         return 0;
     }
+
     /**
      * Метод для рассчёта процента по скидке.
      *
