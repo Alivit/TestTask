@@ -1,5 +1,6 @@
 package logic;
 
+import entity.Promotional;
 import util.RequestUtil;
 
 import java.text.DecimalFormat;
@@ -29,9 +30,9 @@ public class OutputLogic {
     /**
      * Это поле листа хранящее изображение чека первая половина
      */
-    private static final List<String> check = List.of(
+    private static List<String> check = List.of(
             "+--------------------------------------------------------+",
-            "cash receipt 111",
+            "CASH RECEIPT 111",
             "IP Ivanov Ivan Ivanovich",
             "Minsk, Vokzalnaya street, 32",
             "Current date " + dateFormat.format(dateNow),
@@ -41,7 +42,7 @@ public class OutputLogic {
             "RN KTT 000006547677567756",
             "FN 87100065476564584",
             "+--------------------------------------------------------+",
-            "name              price           amount        costs     ",
+            "NAME              PRICE           AMOUNT        COSTS     ",
             "+--------------------------------------------------------+"
     );
 
@@ -64,19 +65,16 @@ public class OutputLogic {
     /**
      * Метод вывода продуктов в чеке
      *
-     * @param total цена
      * @param request с списком продуктов
-     * @return возращает итоговую цену
      */
-    private static double printProduct(double total, RequestUtil request){
+    private static void printProduct(RequestUtil request){
         for (int i = 0; i < request.getPromotional().size(); i++) {
-            total = total + request.getPromotional().get(i).getNewPrice();
-            checkList.add(String.format("%-17s %-18s %-10s %-10s", request.getPromotional().get(i).getName(),
+            checkList.add(String.format("%-17s %-18s %-10s %-10s",
+                    request.getPromotional().get(i).getName(),
                     request.getPromotional().get(i).getPrice(),
                     request.getPromotional().get(i).getAmount(),
                     FORMATER.format(request.getPromotional().get(i).getNewPrice())));
         }
-        return total;
     }
 
     /**
@@ -86,11 +84,9 @@ public class OutputLogic {
      * @return возращает изображения чека
      */
     public static List<String> getReceipt(RequestUtil request){
-        double total = 0.0;
-        total = printProduct(total, request);
+        printProduct(request);
         checkList.add("");
-        total = discountCalculation(total, request);
-        checkList.add(String.format("%-47s %-10s", "Total", FORMATER.format(total)));
+        printTotalPrice(request);
         checkList.add("+--------------------------------------------------------+");
         checkList.add("THANK YOU FOR YOUR PURCHASE");
         checkList.add("+--------------------------------------------------------+");
@@ -107,24 +103,18 @@ public class OutputLogic {
     /**
      * Метод вывода скидки за все продукты
      *
-     * @param total цена
      * @param request с списком продуктов
-     * @return возращает итоговую цену
      */
-    public static double discountCalculation(double total, RequestUtil request){
-        try {
-            for (int i = 0; i < request.getCards().size(); i++) {
-                if (request.getCards().get(i).getCode() == request.getCodeCard().get(0)) {
-                    double newTotal = total - request.percent(total, request.getCards().get(i).getDiscount());
-                    checkList.add(String.format("%-47s %-10s", "STARTING PRICE", FORMATER.format(total)));
-                    checkList.add(String.format("%-47s %s%-8s", "DISCOUNT", request.getCards().get(i).getDiscount(),"%"));
-                    return newTotal;
-                }
-            }
-        } catch (NullPointerException e) {
-            return total;
+    public static void printTotalPrice(RequestUtil request){
+        double total = request.getPromotional().stream()
+                .mapToDouble(Promotional::getNewPrice)
+                .sum();
+        double newTotal = request.discountCalculation(total);
+        if(newTotal != total){
+            checkList.add(String.format("%-47s %-10s", "STARTING PRICE", FORMATER.format(total)));
+            checkList.add(String.format("%-47s %s%-8s", "DISCOUNT", request.getDiscount(),"%"));
         }
-        return total;
+        checkList.add(String.format("%-47s %-10s", "Total", FORMATER.format(newTotal)));
     }
 
     public static List<String> getCheckList() {
@@ -133,5 +123,13 @@ public class OutputLogic {
 
     public static void setCheckList(List<String> checkList) {
         OutputLogic.checkList = checkList;
+    }
+
+    public static List<String> getCheck() {
+        return check;
+    }
+
+    public static void setCheck(List<String> check) {
+        OutputLogic.check = check;
     }
 }

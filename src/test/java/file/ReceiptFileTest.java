@@ -1,6 +1,9 @@
 package file;
 
 import builder.impls.PromotionalTest;
+import file.factory.FileRepository;
+import file.impls.ReceiptFile;
+import file.interf.Inputable;
 import logic.OutputLogic;
 import entity.Promotional;
 import org.junit.jupiter.api.Test;
@@ -35,7 +38,8 @@ class ReceiptFileTest {
         request.setPromotional(promotionals);
 
         OutputLogic.getReceipt(request);
-        ReceiptFile.inputInFile();
+        Inputable input = FileRepository.getRepository("TXT");
+        input.inputInFile(request);
 
         try(FileReader reader = new FileReader(file)){
             Scanner scan = new Scanner(reader);

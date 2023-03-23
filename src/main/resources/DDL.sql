@@ -9,7 +9,7 @@ create table product (
 
 create table discount_card(
     id serial primary key,
-    code integer,
+    code varchar (5),
     discount integer
 );
 

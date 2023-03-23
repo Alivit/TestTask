@@ -11,7 +11,7 @@ import entity.DiscountCard;
 @With
 public class DiscountCardTest implements TestBuilder<DiscountCard> {
     private int id = 0;
-    private int code = 1234;
+    private String code = "1234";
     private int discount = 10;
 
     @Override

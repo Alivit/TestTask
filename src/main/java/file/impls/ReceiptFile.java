@@ -1,5 +1,6 @@
-package file;
+package file.impls;
 
+import file.interf.Inputable;
 import logic.OutputLogic;
 import util.RequestUtil;
 
@@ -11,7 +12,7 @@ import java.io.PrintWriter;
 /**
  * Класс записи чека в файл
  */
-public class ReceiptFile {
+public class ReceiptFile implements Inputable {
 
     /**
      * Это поле указывающее на файл хранящий чек
@@ -21,7 +22,7 @@ public class ReceiptFile {
     /**
      * Метод который записывает чек в указанный файл
      */
-    public static void inputInFile()  {
+    public void inputInFile(RequestUtil request)  {
         file = new File("src/main/resources/Receipt.txt");
         try(FileWriter writer = new FileWriter(file, false)){
             PrintWriter print = new PrintWriter(writer);

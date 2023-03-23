@@ -55,7 +55,7 @@ public class DiscountCardService implements DiscountCardDAO {
         try {
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,card.getCode());
+            preparedStatement.setString(1,card.getCode());
             preparedStatement.setInt(2,card.getDiscount());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class DiscountCardService implements DiscountCardDAO {
 
                 DiscountCard card = new DiscountCard(
                         resultSet.getInt("id"),
-                        resultSet.getInt("code"),
+                        resultSet.getString("code"),
                         resultSet.getInt("discount")
                 );
                 cardList.add(card);
@@ -107,7 +107,7 @@ public class DiscountCardService implements DiscountCardDAO {
         try {
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, card.getCode());
+            preparedStatement.setString(1, card.getCode());
             preparedStatement.setInt(2, card.getDiscount());
         } catch (SQLException e) {
             e.printStackTrace();

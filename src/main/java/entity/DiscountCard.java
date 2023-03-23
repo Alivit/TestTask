@@ -13,13 +13,13 @@ public class DiscountCard {
     /**
      * Поле с кодом карты
      */
-    private int code;
+    private String code;
     /**
      * Поле с размером скидки карты
      */
     private int discount;
 
-    public DiscountCard(int id, int code, int discount) {
+    public DiscountCard(int id, String code, int discount) {
         this.id = id;
         this.code = code;
         this.discount = discount;
@@ -35,11 +35,11 @@ public class DiscountCard {
         this.id = id;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

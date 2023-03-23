@@ -20,7 +20,7 @@ class DiscountCardServiceTest {
     DiscountCardService discountCardService = null;
     private static Stream<Arguments> cardArgumentsProvider(){
         return Stream.of(
-                Arguments.of(new DiscountCard(12, 9735, 7))
+                Arguments.of(new DiscountCard(12, "9735", 7))
         );
     }
     @BeforeEach

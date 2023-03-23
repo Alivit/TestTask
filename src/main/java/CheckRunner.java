@@ -1,5 +1,7 @@
 import database.DBConnection;
-import file.ReceiptFile;
+import file.factory.FileRepository;
+import file.impls.ReceiptPDF;
+import file.interf.Inputable;
 import logic.OutputLogic;
 import util.RequestUtil;
 /**
@@ -33,6 +35,7 @@ public class CheckRunner {
         request.workWithBD();
         request.comparison();
         OutputLogic.viewReceipt(request);
-        ReceiptFile.inputInFile();
+        Inputable input = FileRepository.getRepository("PDF");
+        input.inputInFile(request);
     }
 }
