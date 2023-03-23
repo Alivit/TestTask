@@ -1,28 +1,31 @@
 package database;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
 
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.*;
+import java.util.Map;
+
+/**
+ * Класс отвечающий за подключение к базе данных
+ */
 public class DBConnection {
+    /**
+     * Поле с классом подключения к базе данных
+     */
     private static Connection connection;
 
+    /**
+     * Метод который подключает пользователя к базе данных
+     */
     public static void init() {
-        final Properties properties = new Properties();
-
         try {
-            final FileInputStream fileInputStream = new FileInputStream(
-                    "D:/Clevertec/task/src/main/resources/application.properties");
-            properties.load(fileInputStream);
-
-            final String username = properties.getProperty("username");
-            final String password = properties.getProperty("password");
-            final String url = properties.getProperty("url");
+            Map<String, Map<String,Object>> data = new Yaml().load(new FileReader("src/main/resources/application.yml"));
+            final String username = data.get("datasource").get("username").toString();
+            final String password = data.get("datasource").get("password").toString();
+            final String url = data.get("datasource").get("url").toString();
 
             connection = DriverManager.getConnection(url, username, password);
         } catch (IOException | SQLException e) {
@@ -32,5 +35,9 @@ public class DBConnection {
 
     public static Statement getStatement() throws SQLException {
         return connection.createStatement();
+    }
+
+    public static Connection getConnection() {
+        return connection;
     }
 }

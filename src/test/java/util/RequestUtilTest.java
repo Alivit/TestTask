@@ -2,13 +2,14 @@ package util;
 
 import database.DBConnection;
 
-import model.Product;
+import entity.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ class RequestUtilTest {
         ArrayList<Product.Builder> product = new ArrayList<>();
 
         orderMap.put(2, 4);
-        product.add(new Product.Builder(2, "—˚", 2.12, "‡ÍˆËˇ"));
+        product.add(new Product.Builder(2, "–°—ã—Ä", 2.12, "–∞–∫—Ü–∏—è"));
 
         request.setOrderMap(orderMap);
         request.setProducts(product);
@@ -60,10 +61,10 @@ class RequestUtilTest {
     }
 
     @Test
-    void testCreateData() throws SQLException {
+    void testCreateData() throws SQLException, FileNotFoundException {
 
         DBConnection.init();
-        request.workWithBD(request);
+        request.workWithBD();
 
         assertThat(request.getProducts().size()).isNotEqualTo(0);
 

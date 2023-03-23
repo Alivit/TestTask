@@ -1,35 +1,65 @@
 package util;
 
 import exception.CardOrProductException;
-import model.DiscountCard;
-import model.Product;
-import model.Promotional;
-import repository.factory.RepositoryManager;
-import repository.interf.Repository;
-import service.QueryService;
+import entity.DiscountCard;
+import entity.Product;
+import entity.Promotional;
+import service.DiscountCardService;
+import service.ProductService;
 
-import java.sql.ResultSet;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс обработки запросов, один из самых главных класссов где
+ * и происходят важные функции над созданием чека.
+ *
+ * @autor Чуйко Виталий
+ * @version 1.0
+ * @since   2023-03-08
+ */
 public class RequestUtil {
 
-    private ArrayList<Product.Builder> products;
-    private ArrayList<DiscountCard> cards;
-    private ArrayList<Promotional> promotional;
+    /**
+     * Это поле листа с продуктами
+     */
+    private List<Product.Builder> products;
+    /**
+     * Это поле листа с картами
+     */
+    private List<DiscountCard> cards;
+    /**
+     * Это поле листа с продуктами со скидкой
+     */
+    private List<Promotional> promotional;
 
+    /**
+     * Это поле листа с кодами карт, которые были введены пользователем
+     */
     private static List<Integer> codeCard;
+    /**
+     * Это поле ключ-карты с количейтвом и айди продукции, которые были введены пользователем
+     */
     private static Map<Integer, Integer> orderMap;
 
+    /**
+     * Это парсер в котором происходит расстуссовка полученных аргументов по коллекциям.
+     * Если аргументов нет выведет ошибку
+     *
+     * @param args полученные номера и количество продукции,
+     *             а также номера дисконтной карты.
+     * @return ничего
+     */
     public static void parseRequest(String[] args) {
         codeCard = new ArrayList<>();
         orderMap = new HashMap<>();
 
         if(args.length == 0){
-            System.out.println("������������ ������");
+            System.out.println("Uncorrected request");
             System.exit(0);
         }
 
@@ -45,7 +75,7 @@ public class RequestUtil {
                 } else if (isProductPair(firstPart,secondPart)) {
                     orderMap.put(Integer.parseInt(firstPart), Integer.parseInt(secondPart));
                 } else {
-                    throw new CardOrProductException("������������ ������");
+                    throw new CardOrProductException("Uncorrected request");
                 }
 
             } catch (Exception e) {
@@ -55,13 +85,19 @@ public class RequestUtil {
         }
 
         if(orderMap.size() == 0){
-            System.out.println("������������ ������");
+            System.out.println("Uncorrected request");
             System.exit(0);
         }
 
-        System.out.println("������ ��������!!!");
+        System.out.println("Request will added!!!");
     }
 
+    /**
+     * Метод который проверяет число ли это.
+     *
+     * @param s с проверяемым числом
+     * @return boolean
+     */
     private static boolean isNumber(String s) {
         try {
             Integer.parseInt(s);
@@ -71,28 +107,41 @@ public class RequestUtil {
         }
     }
 
+    /**
+     * Метод проверки пары продукции.
+     *
+     * @param firstPart айди
+     * @param secondPart количество
+     * @return boolean
+     */
     private static boolean isProductPair(String firstPart, String secondPart) {
         return isNumber(firstPart) && isNumber(secondPart);
     }
 
+    /**
+     * Метод проверки пары карт.
+     *
+     * @param firstPart ключевое слово card
+     * @param secondPart номер карты
+     * @return boolean
+     */
     private static boolean isCardPair(String firstPart, String secondPart) {
         return firstPart.equals("card") && isNumber(secondPart);
     }
 
-    public void createData(String type, String query,RequestUtil request) throws SQLException {
-        Repository repository = RepositoryManager.getRepository(type);
-        ResultSet resultSet = QueryService.get(query);
-        repository.get(resultSet, request);
-    }
+    /**
+     * Метод который работает с запросами базы данных.
+     * Здесь из базы данных приходит и записывается в листы
+     * список продуктов и дисконтных карт
+     */
+    public void workWithBD() throws SQLException, FileNotFoundException {
+        DiscountCardService discountCardService = new DiscountCardService();
+        ProductService productService = new ProductService();
 
-    public void workWithBD(RequestUtil request) throws SQLException {
-        products = new ArrayList<>();
-        createData("PRODUCT", "select * from product", request);
-
+        products = productService.getAll();
         try {
             if (codeCard.size() != 0) {
-                cards = new ArrayList<>();
-                createData("DISCOUNT_CARD", "select * from discount_card", request);
+                cards = discountCardService.getAll();
             }
         }catch (NullPointerException e){
             System.out.println(e.getMessage());
@@ -100,6 +149,10 @@ public class RequestUtil {
 
     }
 
+    /**
+     * Метод сравнения введённых пользователем айди продукций
+     * с теми что есть в базе данных.
+     */
     public void comparison(){
 
         promotional = new ArrayList<>();
@@ -113,15 +166,21 @@ public class RequestUtil {
         }
     }
 
+    /**
+     * Метод для рассчёта цены продукции с учтением его количества.
+     * Также здесь учитываются продукция со скидкой и рассчитывается уже по новому
+     * @param i айди продута найденного в базе данных
+     * @param item ключ-карта которая содержит количество и айди продукта
+     */
     private void priceCalculation(int i, Map.Entry<Integer, Integer> item){
 
         double newPrice;
         products.get(i).setAmount(item.getValue());
         try {
             if(products.get(i).build().getStatus() == null) {
-                throw new Exception("������ ���������!!!");
+                throw new Exception("Default status!!!");
             }
-            else if(products.get(i).build().getStatus().equals("�����") && item.getValue() >= 5){
+            else if(products.get(i).build().getStatus().equals("promotion") && item.getValue() >= 5){
                 newPrice = products.get(i).build().getPrice() * item.getValue()
                         - percent(products.get(i).build().getPrice() * item.getValue(), 10);
             }else{
@@ -138,6 +197,13 @@ public class RequestUtil {
         }
     }
 
+    /**
+     * Метод для рассчёта процента по скидке.
+     *
+     * @param Sum итогова сумма
+     * @param discount скидка
+     * @return сумму со скидкой
+     */
     public double percent(double Sum, int discount){
         return Sum / 100 * discount;
     }
@@ -150,15 +216,15 @@ public class RequestUtil {
         return codeCard;
     }
 
-    public ArrayList<Product.Builder> getProducts() {
+    public List<Product.Builder> getProducts() {
         return products;
     }
 
-    public ArrayList<DiscountCard> getCards() {
+    public List<DiscountCard> getCards() {
         return cards;
     }
 
-    public ArrayList<Promotional> getPromotional() {
+    public List<Promotional> getPromotional() {
         return promotional;
     }
 
@@ -170,15 +236,15 @@ public class RequestUtil {
         this.codeCard = codeCard;
     }
 
-    public void setProducts(ArrayList<Product.Builder> products) {
+    public void setProducts(List<Product.Builder> products) {
         this.products = products;
     }
 
-    public void setCards(ArrayList<DiscountCard> cards) {
+    public void setCards(List<DiscountCard> cards) {
         this.cards = cards;
     }
 
-    public void setPromotional(ArrayList<Promotional> promotional) {
+    public void setPromotional(List<Promotional> promotional) {
         this.promotional = promotional;
     }
 }
